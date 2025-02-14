@@ -36,7 +36,7 @@ jobs:
         retention-days: 30
     - name: Comment on Pull Request with report
       uses: thollander/actions-comment-pull-request@v3
-      if: ${{ failure() && env.SNAPSHOT_DIFFERENT == 'true' }}
+      if: ${{ failure() && env.SNAPSHOT_DIFFERENT == 'true' && github.event_name == 'pull_request' }}
       with:
         message: |
           ### Playwright visual snapshot differences were detected.
