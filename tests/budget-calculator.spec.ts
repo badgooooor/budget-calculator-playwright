@@ -4,6 +4,7 @@ import { BudgetCalculatorPage } from "../app/budgetCalculatorPage";
 
 test("should able to go to budget calculator page, fill in form and get expense budget", async ({ page }) => {
   const financialCalculatorPage = new FinancialCalculatorPage(page);
+  await financialCalculatorPage.segmentViewedScreen.listenSegmentViewedScreenEvent();
 
   // Finanical calculator
   await financialCalculatorPage.goto();
@@ -12,9 +13,11 @@ test("should able to go to budget calculator page, fill in form and get expense 
 
   await financialCalculatorPage.clickBudgetCalculatorPage();
   await expect(page).toHaveScreenshot('budget-calculator-page.png');
+  expect(financialCalculatorPage.segmentViewedScreen.isViewedScreenEventSent).toBe(true);
 
   // Budget calculator page
   const budgetCalculatorPage = new BudgetCalculatorPage(page);
+  await budgetCalculatorPage.segmentViewedScreen.listenSegmentViewedScreenEvent();
 
   await budgetCalculatorPage.typeTakeHomeIncomeInput("20000");
   await budgetCalculatorPage.typeZipCodeInput("94302");
@@ -24,4 +27,6 @@ test("should able to go to budget calculator page, fill in form and get expense 
 
   await expect(budgetCalculatorPage.expenseBudgetContent).toBeVisible();
   await expect(page).toHaveScreenshot('budget-calculator-page-content.png');
+
+  expect(budgetCalculatorPage.segmentViewedScreen.isViewedScreenEventSent).toBe(true);
 });
