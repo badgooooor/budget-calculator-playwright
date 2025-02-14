@@ -1,16 +1,19 @@
-name: Playwright Tests
+name: Update snapshots on trigger
 on:
   issue_comment:
     types: [created]
 jobs:
   update-snapshot:
+    permissions:
+      contents: write
+      pull-requests: write
     name: Update snapshots
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/approve-snapshots')
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
     - name: Get pull request branch
-      uses: xt0rted/pull-request-comment-branch@v2
+      uses: xt0rted/pull-request-comment-branch@v3
       id: comment-branch
     - uses: actions/checkout@v4
       with:
