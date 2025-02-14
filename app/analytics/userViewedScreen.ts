@@ -1,11 +1,11 @@
 import { Page } from "@playwright/test";
 import { SegmentEvent } from "../../types/segment";
 
-export interface ISegmentViewedScreen {
-  listenSegmentViewedScreenEvent(): Promise<void>;
+export interface IUserViewedScreen {
+  listenUserViewedScreenEvent(): Promise<void>;
 };
 
-export class SegmentViewedScreen implements ISegmentViewedScreen {
+export class UserViewedScreen implements IUserViewedScreen {
   isViewedScreenEventSent: boolean;
   readonly page: Page;
   readonly targetScreenName: string;
@@ -16,7 +16,7 @@ export class SegmentViewedScreen implements ISegmentViewedScreen {
     this.targetScreenName = targetScreenName;
   }
 
-  async listenSegmentViewedScreenEvent() {
+  async listenUserViewedScreenEvent() {
     await this.page.route('https://api.segment.io/v1/t', async (route) => {
       const bodyString = route.request().postData();
 

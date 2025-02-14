@@ -1,10 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { CookieNoticeBanner, ICookNoticeBanner } from "./components/cookieNoticeBanner";
-import { ISegmentViewedScreen, SegmentViewedScreen } from "./analytics/segmentViewedScreen";
+import { IUserViewedScreen, UserViewedScreen } from "./analytics/userViewedScreen";
 
 interface IFinancialCalculatorPage {
   cookieNoticeBanner: ICookNoticeBanner;
-  segmentViewedScreen: ISegmentViewedScreen;
+  userViewedScreen: IUserViewedScreen;
   clickBudgetCalculatorPage(): Promise<void>;
 }
 
@@ -15,7 +15,7 @@ export class FinancialCalculatorPage implements IFinancialCalculatorPage {
   constructor(
     page: Page,
     public cookieNoticeBanner = new CookieNoticeBanner(page),
-    public segmentViewedScreen = new SegmentViewedScreen(page, "Website EarnIn dotcom - Financial Calculators Page")
+    public userViewedScreen = new UserViewedScreen(page, "Website EarnIn dotcom - Financial Calculators Page")
   ) {
     this.page = page;
     this.budgetCalculatorLinkDiv = page.getByTestId(
