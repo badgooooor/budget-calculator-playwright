@@ -16,5 +16,6 @@ export class CookieNoticeBanner implements ICookNoticeBanner {
   async clickAgreeCookieButton() {
     await expect(this.agreeCookieButton).toBeVisible();
     await this.agreeCookieButton.click();
+    await expect(this.agreeCookieButton).not.toBeVisible();
   }
 }
