@@ -18,7 +18,7 @@ test("should able to go to budget calculator page, fill in form and get expense 
 
   await budgetCalculatorPage.typeTakeHomeIncomeInput("20000");
   await budgetCalculatorPage.typeZipCodeInput("94302");
-  await expect(page).toHaveScreenshot('budget-calculator-page-form.png');
+  await expect(page).toHaveScreenshot('budget-calculator-page-form.png', { fullPage: true });
 
   await budgetCalculatorPage.submitForm();
 
