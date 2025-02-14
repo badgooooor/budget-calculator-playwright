@@ -2,6 +2,10 @@ name: Playwright Tests
 on:
   issue_comment:
     types: [created]
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
 jobs:
   update-snapshot:
     name: Update snapshots
