@@ -1,0 +1,55 @@
+name: Playwright Tests
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  update-snapshot:
+    name: Update snapshots
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/approve-snapshots')
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get pull request branch
+      uses: xt0rted/pull-request-comment-branch@v3
+      id: comment-branch
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ steps.comment-branch.outputs.head_ref }}
+    - name: Comment on snapshot updating process started at pull request
+      uses: thollander/actions-comment-pull-request@v3
+      with:
+        message: |
+          Snapshot update is started. 
+          Click [this link](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) to see the status.
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm install -g pnpm && pnpm install
+    - name: Install Playwright Browsers
+      run: pnpm exec playwright install --with-deps
+    - name: Run Playwright tests
+      run: |
+        pnpm exec playwright test --update-snapshots | tee output.log
+        if grep -q "failed" output.log; then
+          echo "Error on running test."
+          echo "SNAPSHOT_UPDATE_FAILED=true" >> $GITHUB_ENV
+          exit 1
+        fi
+    - name: Commit updated snapshots
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'chore: update snapshots'
+    - name: Comment success
+      uses: thollander/actions-comment-pull-request@v3
+      if: ${{ !failure() && github.event_name == 'pull_request' }}
+      with:
+        message: |
+          Snapshot update success! Snapshots are committed.
+    - name: Comment on pull request on failed snapshot
+      uses: thollander/actions-comment-pull-request@v3
+      if: ${{ failure() && env.SNAPSHOT_UPDATE_FAILED == 'true' && github.event_name == 'pull_request' }}
+      with:
+        message: |
+          Snapshot update failed due to failed Playwright tests.
+          Please push fixes to this branch and trigger workflow by comment ** /approve-snapshots to try again.
