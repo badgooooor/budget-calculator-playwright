@@ -46,7 +46,7 @@ jobs:
         commit_message: 'chore: update snapshots'
     - name: Comment success
       uses: thollander/actions-comment-pull-request@v3
-      if: ${{ !failure() && github.event_name == 'pull_request' }}
+      if: ${{ !failure() }}
       with:
         message: |
           Snapshot update success! Snapshots are committed.
