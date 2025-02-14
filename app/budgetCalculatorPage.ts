@@ -1,7 +1,9 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { FormInput, IFormInput } from "./components/formInput";
+import { ISegmentViewedScreen, SegmentViewedScreen } from "./analytics/segmentViewedScreen";
 
 export interface IBudgetCalculatorPage {
+  segmentViewedScreen: ISegmentViewedScreen;
   typeTakeHomeIncomeInput(text: string): Promise<void>;
   typeZipCodeInput(text: string): Promise<void>;
   submitForm(): Promise<void>;
@@ -17,7 +19,10 @@ export class BudgetCalculatorPage implements IBudgetCalculatorPage {
 
   readonly expenseBudgetContent: Locator;
 
-  constructor(page: Page) {
+  constructor(
+    page: Page,
+    public segmentViewedScreen = new SegmentViewedScreen(page, "Budget Calculator")
+  ) {
     this.page = page;
 
     this.takeHomeIncomeInput = new FormInput(page, "income");
