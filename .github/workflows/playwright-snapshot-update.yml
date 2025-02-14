@@ -2,11 +2,11 @@ name: Update snapshots on trigger
 on:
   issue_comment:
     types: [created]
+permissions:
+  contents: write
+  pull-requests: write
 jobs:
   update-snapshot:
-    permissions:
-      contents: write
-      pull-requests: write
     name: Update snapshots
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/approve-snapshots')
     timeout-minutes: 60
