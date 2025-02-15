@@ -12,19 +12,19 @@ test("should able to go to budget calculator page, fill in form and get expense 
   await financialCalculatorPage.userViewedScreen.listenUserViewedScreenEvent();
 
   const budgetCalculatorPage = new BudgetCalculatorPage(page);
-  
+
   // Finanical calculator
   await financialCalculatorPage.goto();
   await financialCalculatorPage.cookieNoticeBanner.clickAgreeCookieButton();
   await expect(page).toHaveScreenshot('financial-calculator-page.png');
 
   await financialCalculatorPage.clickBudgetCalculatorPage();
+  await budgetCalculatorPage.userViewedScreen.listenUserViewedScreenEvent();
+
   await expect(page).toHaveScreenshot('budget-calculator-page.png');
   expect(financialCalculatorPage.userViewedScreen.isViewedScreenEventSent).toBe(true);
 
   // Budget calculator page
-  await budgetCalculatorPage.userViewedScreen.listenUserViewedScreenEvent();
-
   await budgetCalculatorPage.typeTakeHomeIncomeInput("20000");
   await budgetCalculatorPage.typeZipCodeInput(zipCodeData?.zipCode);
   await expect(page).toHaveScreenshot('budget-calculator-page-form.png', { fullPage: true });
