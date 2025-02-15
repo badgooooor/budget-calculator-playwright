@@ -2,6 +2,7 @@ import { expect, Locator, Page } from "@playwright/test";
 
 export interface IFormInput {
   type(text: string): Promise<void>;
+  getErrorMessage(): Locator;
 };
 
 export class FormInput implements IFormInput {
@@ -17,4 +18,8 @@ export class FormInput implements IFormInput {
     await expect(this.input).not.toBeDisabled();
     this.input.fill(text);
   };
+
+  getErrorMessage() {
+    return this.errorMessage
+  }
 }
