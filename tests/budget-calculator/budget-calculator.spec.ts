@@ -11,6 +11,8 @@ test("should able to go to budget calculator page, fill in form and get expense 
   const financialCalculatorPage = new FinancialCalculatorPage(page);
   await financialCalculatorPage.userViewedScreen.listenUserViewedScreenEvent();
 
+  const budgetCalculatorPage = new BudgetCalculatorPage(page);
+  
   // Finanical calculator
   await financialCalculatorPage.goto();
   await financialCalculatorPage.cookieNoticeBanner.clickAgreeCookieButton();
@@ -21,7 +23,6 @@ test("should able to go to budget calculator page, fill in form and get expense 
   expect(financialCalculatorPage.userViewedScreen.isViewedScreenEventSent).toBe(true);
 
   // Budget calculator page
-  const budgetCalculatorPage = new BudgetCalculatorPage(page);
   await budgetCalculatorPage.userViewedScreen.listenUserViewedScreenEvent();
 
   await budgetCalculatorPage.typeTakeHomeIncomeInput("20000");
