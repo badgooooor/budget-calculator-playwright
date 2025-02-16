@@ -15,12 +15,15 @@ export interface IBudgetCalculatorPage {
 export class BudgetCalculatorPage implements IBudgetCalculatorPage {
   readonly page: Page;
 
+  // Form content and 
   readonly takeHomeIncomeInput: IFormInput;
   readonly zipCodeInput: IFormInput;
-
   readonly calculateBudgetButton: Locator;
-
   readonly expenseBudgetContent: Locator;
+
+  // About content
+  readonly expandAboutContentTriggerButton: Locator;
+  readonly aboutContent: Locator;
 
   constructor(
     page: Page,
@@ -31,10 +34,11 @@ export class BudgetCalculatorPage implements IBudgetCalculatorPage {
 
     this.takeHomeIncomeInput = new FormInput(page, "income");
     this.zipCodeInput = new FormInput(page, "zipcode");
-
     this.calculateBudgetButton = page.getByTestId("calculate-button");
-
     this.expenseBudgetContent = page.getByTestId("expense-insights-result-content");
+
+    this.expandAboutContentTriggerButton = page.getByText("How the budget calculator works");
+    this.aboutContent = page.getByTestId("content-label");
   }
 
   async goto() {
@@ -52,5 +56,10 @@ export class BudgetCalculatorPage implements IBudgetCalculatorPage {
   async submitForm() {
     await expect(this.calculateBudgetButton).not.toBeDisabled();
     await this.calculateBudgetButton.click();
+  }
+
+  async clickExpandAboutButton() {
+    await expect(this.expandAboutContentTriggerButton).not.toBeDisabled();
+    await this.expandAboutContentTriggerButton.click();
   }
 }
