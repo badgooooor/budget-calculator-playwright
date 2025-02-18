@@ -13,3 +13,7 @@ End-to-end testing project on [Earnin budget calculator website](https://www.ear
     - Snapshot update workflow in case features or tests updated, user can comment `/approve-snapshots` to update snapshot.
       On success, Github Action will commit updated snapshots to branch
 - Github Action for running test on commit pushed in main branch or pull request to main branch
+
+## Documents
+
+- [Requirement specification](./docs/requirement.md)
